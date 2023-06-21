@@ -36,10 +36,10 @@ canvas = Canvas(
 
 canvas.place(x = 0, y = 0)
 canvas.create_rectangle(
-    58.0,
-    16.0,
-    843.0,
-    499.0,
+    0.0,
+    0.0,
+    685.0,
+    450.0,
     fill="#2C3333",
     outline="")
 
