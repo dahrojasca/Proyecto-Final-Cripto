@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Encryption and Decryption</title>
+</head>
+<body>
+    <h1>Encryption and Decryption</h1>
+    <h2>Encryption</h2>
+    <form action="/" method="post">
+        <label for="word">Word:</label>
+        <input type="text" id="word" name="word" required><br>
+
+        <label for="key">Key:</label>
+        <input type="text" id="key" name="key" required><br>
+
+        <input type="submit" value="Encrypt">
+    </form>
+
+    {% if polynomial %}
+        <h3>Encrypted Polynomial:</h3>
+        <p>{{ polynomial }}</p>
+        <h2>Decryption</h2>
+        <form action="/decrypt" method="post">
+            <label for="polynomial">Polynomial:</label>
+            <input type="text" id="polynomial" name="polynomial" value="{{ polynomial }}" readonly><br>
+
+            <label for="key">Key:</label>
+            <input type="text" id="key" name="key" required><br>
+
+            <input type="submit" value="Decrypt">
+        </form>
+    {% endif %}
+
+    {% if decrypted_data %}
+        <h3>Decrypted Data:</h3>
+        <p>{{ decrypted_data }}</p>
+    {% endif %}
+</body>
+</html>
