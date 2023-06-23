@@ -33,3 +33,5 @@ def desencriptar(polinomio_encriptado, clave):
     texto_desencriptado = ''.join(chr(x) for x in numeros_desencriptados)
 
     return texto_desencriptado
+
+print(desencriptar(input("a"),input("b")))

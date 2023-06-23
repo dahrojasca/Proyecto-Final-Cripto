@@ -34,7 +34,9 @@ class Encrypt:
             letra = chr((num % 25) + 65)
             output = output + letra
 
-        return output, p1  # Return the output string and the polynomial object
+        # print("estossonlosnumeros",numeros)
+
+        return output, numeros  # Return the output string and the polynomial object
 
 
 class Decrypt:
@@ -61,12 +63,19 @@ def index():
             key = request.form['key']
             encryptor = Encrypt(word, key)
             output, polynomial = encryptor.encrypt()
+            # print("AAAAAA", polynomial)
             return render_template('index.html', polynomial=polynomial, output=output)
         elif 'polynomial' in request.form and 'decrypt_key' in request.form:
             polynomial = request.form['polynomial']
+            polynomial = polynomial[1:-1]
+            polynomial = ([int(x) for x in polynomial.split(',')])
+            # print(polynomial)
+            # print(type(polynomial))
             key = request.form['decrypt_key']
             decryptor = Decrypt(polynomial, key)
             decrypted_data = decryptor.decrypt()
+            # print(decrypted_data)
+            # print(type(decrypted_data))
             return render_template('index.html', polynomial=polynomial, decrypted_data=decrypted_data)
     return render_template('index.html')
 
