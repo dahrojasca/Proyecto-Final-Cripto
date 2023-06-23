@@ -75,7 +75,7 @@ def index():
             decrypted_data = decryptor.decrypt()
             # print(decrypted_data)
             # print(type(decrypted_data))
-            return render_template('index.html', polynomial=polynomial, decrypted_data=decrypted_data, polysuma=polysuma)
+            return render_template('index.html', polynomial=polynomial, decrypted_data=decrypted_data)
     return render_template('index.html')
 
 
