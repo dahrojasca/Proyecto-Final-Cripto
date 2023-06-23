@@ -16,9 +16,10 @@ class Encrypt:
         output = ""
 
         p1 = galois.Poly(palabraC, field=GF)
-        print("Polinomio palabra: ", p1)
+        print("Polinomio palabra:", p1)  # Print the polynomial object
+
         p2 = galois.Poly(claveC, field=GF)
-        print("Polinomio clave: ", p2)
+        print("Polinomio clave:", p2)
 
         a = galois.Poly(GF.irreducible_poly.coefficients(), field=GF)
 
@@ -33,16 +34,16 @@ class Encrypt:
             letra = chr((num % 25) + 65)
             output = output + letra
 
-        return output
+        return output, p1  # Return the output string and the polynomial object
+
 
 class Decrypt:
     def __init__(self, polinomio_encriptado, clave):
-        self.polinomio_encriptado = polinomio_encriptado[1:-1]
+        self.polinomio_encriptado = polinomio_encriptado
         self.clave = clave
 
     def decrypt(self):
-        coeficientes = [int(x) for x in self.polinomio_encriptado.split(',')]
-        polinomio_encriptado = galois.Poly(coeficientes, field=GF)
+        polinomio_encriptado = galois.Poly(self.polinomio_encriptado, field=GF)
         claveC = [ord(c) for c in self.clave]
         polinomio_clave = galois.Poly(claveC, field=GF)
         polinomio_desencriptado = polinomio_encriptado // polinomio_clave
@@ -51,23 +52,24 @@ class Decrypt:
         texto_desencriptado = ''.join(chr(x) for x in numeros_desencriptados)
         return texto_desencriptado
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        word = request.form['word']
-        key = request.form['key']
-        encryptor = Encrypt(word, key)
-        polynomial = encryptor.encrypt()
-        return render_template('index.html', polynomial=polynomial)
+        if 'word' in request.form and 'key' in request.form:
+            word = request.form['word']
+            key = request.form['key']
+            encryptor = Encrypt(word, key)
+            output, polynomial = encryptor.encrypt()
+            return render_template('index.html', polynomial=polynomial, output=output)
+        elif 'polynomial' in request.form and 'decrypt_key' in request.form:
+            polynomial = request.form['polynomial']
+            key = request.form['decrypt_key']
+            decryptor = Decrypt(polynomial, key)
+            decrypted_data = decryptor.decrypt()
+            return render_template('index.html', polynomial=polynomial, decrypted_data=decrypted_data)
     return render_template('index.html')
 
-@app.route('/decrypt', methods=['POST'])
-def decrypt():
-    polynomial = request.form['polynomial']
-    key = request.form['key']
-    decryptor = Decrypt(polynomial, key)
-    decrypted_data = decryptor.decrypt()
-    return render_template('decrypt.html', decrypted_data=decrypted_data)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

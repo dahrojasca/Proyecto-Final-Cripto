@@ -10,9 +10,7 @@ def encriptar(palabra, clave):
 
     #Aquí se inicializan los polinomios con aquello de aritmética modular
     p1 = galois.Poly(palabraC, field=GF)
-    print("Polinomio palabra: ",p1)
     p2 = galois.Poly(claveC, field=GF)
-    print("Polinomio clave: ",p2)
 
     #Aquí tocó poner el polinomio irreducible como vector porque no supe extraerlo del irreducible_poly ↓
     a = galois.Poly(GF.irreducible_poly.coefficients(), field=GF)
