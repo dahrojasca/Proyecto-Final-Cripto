@@ -36,7 +36,7 @@ class Encrypt:
 
         # print("estossonlosnumeros",numeros)
 
-        return output, numeros  # Return the output string and the polynomial object
+        return output, numeros, polySuma  # Return the output string and the polynomial object
 
 
 class Decrypt:
@@ -62,9 +62,8 @@ def index():
             word = request.form['word']
             key = request.form['key']
             encryptor = Encrypt(word, key)
-            output, polynomial = encryptor.encrypt()
-            # print("AAAAAA", polynomial)
-            return render_template('index.html', polynomial=polynomial, output=output)
+            output, polynomial, polysuma = encryptor.encrypt()
+            return render_template('index.html', polynomial=polynomial, output=output, polysuma=polysuma)
         elif 'polynomial' in request.form and 'decrypt_key' in request.form:
             polynomial = request.form['polynomial']
             polynomial = polynomial[1:-1]
@@ -76,7 +75,7 @@ def index():
             decrypted_data = decryptor.decrypt()
             # print(decrypted_data)
             # print(type(decrypted_data))
-            return render_template('index.html', polynomial=polynomial, decrypted_data=decrypted_data)
+            return render_template('index.html', polynomial=polynomial, decrypted_data=decrypted_data, polysuma=polysuma)
     return render_template('index.html')
 
 
